@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Mulish } from "next/font/google";
+import SideBar from "./_components/sidebar";
+import { Inter } from "next/font/google";
 
 export const metadata: Metadata = {
   title: "Uriana",
-  description: "Sistema de gerênciamento de vendas",
+  description: "Gerenciador de estoque e vendas",
 };
 
-const mulish = Mulish({
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
@@ -18,12 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
-      <body
-        className={`${mulish.className} antialiased`}
-      >
+    <html lang="pt-BR">
+      <body className={`${inter.className} antialiased`}>
         <div className="flex h-full gap-8">
-          {/* <SideBar /> */}
+          <SideBar />
           {children}
         </div>
       </body>
