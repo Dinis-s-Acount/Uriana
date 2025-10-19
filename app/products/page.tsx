@@ -3,9 +3,11 @@ import { Button } from "../_components/ui/button";
 import { DataTable } from "../_components/ui/data-table";
 import { productsTableColumns } from "./_components/table-columns";
 import { getProduct } from "../_data-access/product/getProduct";
+import AddProductButton from "./_components/add-product-button";
 
 const Produtos = async () => {
-  const products = await getProduct();
+  const dataObject = await getProduct();
+  const products = JSON.parse(JSON.stringify(dataObject))
   return (
     <div className="mx-8 my-8 w-full space-y-8 rounded-lg bg-white p-8">
       <div className="flex w-full items-center justify-between">
@@ -15,10 +17,7 @@ const Produtos = async () => {
           </span>
           <h2 className="text-xl font-semibold">Produtos</h2>
         </div>
-        <Button>
-          <PlusIcon size={20} />
-          Novo produto
-        </Button>
+        <AddProductButton></AddProductButton>
       </div>
       <DataTable columns={productsTableColumns} data={products} />
     </div>
