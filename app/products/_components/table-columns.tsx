@@ -1,6 +1,9 @@
 "use client";
 
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/app/_components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+} from "@/app/_components/ui/alert-dialog";
 import { Badge } from "@/app/_components/ui/badge";
 import { Button } from "@/app/_components/ui/button";
 import {
@@ -19,6 +22,7 @@ import {
   MoreHorizontalIcon,
   TrashIcon,
 } from "lucide-react";
+import DeleteProductDialogContent from "./delete-dialog-content";
 
 const getStatusLabel = (stock: number) => {
   if (stock > 0) {
@@ -74,7 +78,7 @@ export const productsTableColumns: ColumnDef<Product>[] = [
     cell: (row) => {
       const product = row.row.original;
       return (
-         <AlertDialog>
+        <AlertDialog>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost">
@@ -82,7 +86,6 @@ export const productsTableColumns: ColumnDef<Product>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuSeparator />
               <DropdownMenuItem
                 className="gap-1.5"
                 onClick={() => navigator.clipboard.writeText(product.id)}
@@ -90,6 +93,7 @@ export const productsTableColumns: ColumnDef<Product>[] = [
                 <ClipboardCopyIcon size={16} />
                 Copiar ID
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem
                 className="gap-1.5"
                 onClick={() => navigator.clipboard.writeText(product.id)}
@@ -108,21 +112,7 @@ export const productsTableColumns: ColumnDef<Product>[] = [
               </AlertDialogTrigger>
             </DropdownMenuContent>
           </DropdownMenu>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
-              <AlertDialogDescription>
-                Você está prestes a excluir este produto. Esta ação não pode ser
-                desfeita. Deseja continuar?
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancelar</AlertDialogCancel>
-              <AlertDialogAction onClick={()=> console.log("Foi")}>
-                Confirmar
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
+          <DeleteProductDialogContent productId={product.id} />
         </AlertDialog>
       );
     },
