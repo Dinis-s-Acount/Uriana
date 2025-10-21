@@ -1,9 +1,24 @@
 "use client";
 
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/app/_components/ui/alert-dialog";
 import { Badge } from "@/app/_components/ui/badge";
+import { Button } from "@/app/_components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/app/_components/ui/dropdown-menu";
 import { Product } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
-import { CircleIcon } from "lucide-react";
+import {
+  CircleIcon,
+  ClipboardCopyIcon,
+  EditIcon,
+  MoreHorizontalIcon,
+  TrashIcon,
+} from "lucide-react";
 
 const getStatusLabel = (stock: number) => {
   if (stock > 0) {
@@ -50,6 +65,65 @@ export const productsTableColumns: ColumnDef<Product>[] = [
           />
           {label}
         </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "actions",
+    header: "Ações",
+    cell: (row) => {
+      const product = row.row.original;
+      return (
+         <AlertDialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost">
+                <MoreHorizontalIcon size={16} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="gap-1.5"
+                onClick={() => navigator.clipboard.writeText(product.id)}
+              >
+                <ClipboardCopyIcon size={16} />
+                Copiar ID
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="gap-1.5"
+                onClick={() => navigator.clipboard.writeText(product.id)}
+              >
+                <EditIcon size={16} />
+                Editar
+              </DropdownMenuItem>
+              <AlertDialogTrigger>
+                <DropdownMenuItem
+                  className="gap-1.5"
+                  onClick={() => navigator.clipboard.writeText(product.id)}
+                >
+                  <TrashIcon size={16} />
+                  Deletar
+                </DropdownMenuItem>
+              </AlertDialogTrigger>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Você está prestes a excluir este produto. Esta ação não pode ser
+                desfeita. Deseja continuar?
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction onClick={()=> console.log("Foi")}>
+                Confirmar
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       );
     },
   },
