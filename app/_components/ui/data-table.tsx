@@ -7,7 +7,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-
 import {
   Table,
   TableBody,
@@ -34,8 +33,8 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="overflow-hidden rounded-md border">
-      <Table>
-        <TableHeader>
+      <Table >
+        <TableHeader >
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
