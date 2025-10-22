@@ -31,7 +31,7 @@ import { createProduct } from "@/app/_actions/upsert-products";
 import { toast } from "sonner";
 
 interface UpsertProductDialogContentProps {
-  defaultValues: UpsertProductSchema;
+  defaultValues?: UpsertProductSchema;
   onSuccess?: () => void;
 }
 
