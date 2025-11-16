@@ -51,7 +51,6 @@ const ProductTableDropdownMenu = ({
             <DialogTrigger asChild>
               <DropdownMenuItem
                 className="gap-1.5"
-                onClick={() => navigator.clipboard.writeText(product.id)}
               >
                 <EditIcon size={16} />
                 Editar
@@ -60,7 +59,6 @@ const ProductTableDropdownMenu = ({
             <AlertDialogTrigger>
               <DropdownMenuItem
                 className="gap-1.5"
-                onClick={() => navigator.clipboard.writeText(product.id)}
               >
                 <TrashIcon size={16} />
                 Deletar
