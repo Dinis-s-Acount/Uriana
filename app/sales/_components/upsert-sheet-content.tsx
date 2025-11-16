@@ -14,6 +14,7 @@ import { Input } from "@/app/_components/ui/input";
 import {
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@/app/_components/ui/sheet";
@@ -28,13 +29,15 @@ import {
   TableRow,
 } from "@/app/_components/ui/table";
 import { formatCurrency } from "@/app/_helpers/currency";
-import { Product } from "@/app/generated/prisma";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PlusIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { Product } from "@/app/generated/prisma";
+import { PlusIcon, CheckIcon } from "lucide-react";
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import SalesTableDropdownMenu from "./table-dropdown-menu";
+import { createSale } from "@/app/_actions/sale/create-sale";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   productId: z.string().uuid({
@@ -48,6 +51,7 @@ type FormSchema = z.infer<typeof formSchema>;
 interface UpsertSheetContentProps {
   products: Product[];
   productOptions: ComboboxOption[];
+  setSheetIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 interface SelectedProduct {
@@ -60,6 +64,7 @@ interface SelectedProduct {
 const UpsertSheetContent = ({
   productOptions,
   products,
+  setSheetIsOpen,
 }: UpsertSheetContentProps) => {
   const [selectedProducts, setSelectedProduct] = useState<SelectedProduct[]>(
     [],
@@ -71,44 +76,48 @@ const UpsertSheetContent = ({
       quantity: 1,
     },
   });
-
   const onSubmit = (data: FormSchema) => {
     const selectedProduct = products.find(
       (product) => product.id === data.productId,
     );
+
     if (!selectedProduct) return;
 
-    setSelectedProduct((currentProduct) => {
-      const existingProduct = currentProduct.find(
+    setSelectedProduct((currentProducts) => {
+      const existingProduct = currentProducts.find(
         (product) => product.id === selectedProduct.id,
       );
 
-      const productIsOutOfStock = data.quantity > selectedProduct.stock;
+      if (existingProduct) {
+        const totalQuantity = existingProduct.quantity + data.quantity;
 
-      if (productIsOutOfStock) {
-        form.setError("quantity", {
-          type: "manual",
-          message: `A quantidade solicitada excede o estoque disponível (${selectedProduct.stock})`,
-        });
-        return currentProduct;
+        if (totalQuantity > selectedProduct.stock) {
+          form.setError("quantity", {
+            type: "manual",
+            message: `Quantidade indisponível em estoque. Máximo: ${selectedProduct.stock}`,
+          });
+          return currentProducts;
+        }
+
+        form.reset();
+        return currentProducts.map((product) =>
+          product.id === selectedProduct.id
+            ? { ...product, quantity: totalQuantity }
+            : product,
+        );
       }
 
-      if (existingProduct) {
-        return currentProduct.map((product) => {
-          if (product.id === selectedProduct.id) {
-            return {
-              ...product,
-              quantity: product.quantity + data.quantity,
-            };
-          }
-          return product;
+      if (data.quantity > selectedProduct.stock) {
+        form.setError("quantity", {
+          type: "manual",
+          message: `Quantidade indisponível em estoque. Máximo: ${selectedProduct.stock}`,
         });
+        return currentProducts;
       }
 
       form.reset();
-
       return [
-        ...currentProduct,
+        ...currentProducts,
         {
           ...selectedProduct,
           price: Number(selectedProduct.price),
@@ -116,7 +125,6 @@ const UpsertSheetContent = ({
         },
       ];
     });
-
   };
 
   const productsTotal = useMemo(() => {
@@ -126,9 +134,25 @@ const UpsertSheetContent = ({
   }, [selectedProducts]);
 
   const onDelete = (productId: string) => {
-    setSelectedProduct((currentProduct) =>
-      currentProduct.filter((product) => product.id !== productId),
+    setSelectedProduct((currentProducts) =>
+      currentProducts.filter((product) => product.id !== productId),
     );
+  };
+
+  const onSubmitSale = async () => {
+    try {
+      await createSale({
+        products: selectedProducts.map((product) => ({
+          productId: product.id,
+          quantity: product.quantity,
+        })),
+      });
+      toast.success("Venda realizada com sucesso!");
+      setSheetIsOpen(false);
+    } catch (error) {
+      toast.error("Erro ao realizar venda. Tente novamente.");
+      console.log(error);
+    }
   };
   return (
     <SheetContent className="!max-w-[700px]">
@@ -171,15 +195,14 @@ const UpsertSheetContent = ({
               </FormItem>
             )}
           />
-
-          <Button type="submit" className="w-full gap-2" variant="secondary">
-            <PlusIcon size={20}></PlusIcon> Adicionar produto à venda
+          <Button type="submit" className="gap-1.2 w-full" variant="secondary">
+            <PlusIcon size={20} />
+            Adicionar produto à venda
           </Button>
         </form>
       </Form>
-
       <Table>
-        <TableCaption>Lista de produtos adicionado à venda.</TableCaption>
+        <TableCaption>Lista de produtos adicionados à venda.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>Produto</TableHead>
@@ -192,7 +215,7 @@ const UpsertSheetContent = ({
         <TableBody>
           {selectedProducts.map((product) => (
             <TableRow key={product.id}>
-              <TableCell>{product.name}</TableCell>
+              <TableCell className="font-medium">{product.name}</TableCell>
               <TableCell>{formatCurrency(product.price)}</TableCell>
               <TableCell>{product.quantity}</TableCell>
               <TableCell>
@@ -211,9 +234,21 @@ const UpsertSheetContent = ({
           <TableRow>
             <TableCell colSpan={3}>Total</TableCell>
             <TableCell>{formatCurrency(productsTotal)}</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableFooter>
       </Table>
+
+      <SheetFooter className="mt-6">
+        <Button
+          className="w-full gap-2"
+          disabled={selectedProducts.length === 0}
+          onClick={onSubmitSale}
+        >
+          <CheckIcon size={20} />
+          Finalizar venda
+        </Button>
+      </SheetFooter>
     </SheetContent>
   );
 };
