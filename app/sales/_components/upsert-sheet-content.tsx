@@ -78,13 +78,23 @@ const UpsertSheetContent = ({
     );
     if (!selectedProduct) return;
 
-    setSelectedProduct((currentProducts) => {
-      const existingProduct = currentProducts.find(
+    setSelectedProduct((currentProduct) => {
+      const existingProduct = currentProduct.find(
         (product) => product.id === selectedProduct.id,
       );
 
+      const productIsOutOfStock = data.quantity > selectedProduct.stock;
+
+      if (productIsOutOfStock) {
+        form.setError("quantity", {
+          type: "manual",
+          message: `A quantidade solicitada excede o estoque disponível (${selectedProduct.stock})`,
+        });
+        return currentProduct;
+      }
+
       if (existingProduct) {
-        return currentProducts.map((product) => {
+        return currentProduct.map((product) => {
           if (product.id === selectedProduct.id) {
             return {
               ...product,
@@ -95,18 +105,18 @@ const UpsertSheetContent = ({
         });
       }
 
+      form.reset();
+
       return [
-        ...currentProducts,
+        ...currentProduct,
         {
-          id: selectedProduct.id,
-          name: selectedProduct.name,
+          ...selectedProduct,
           price: Number(selectedProduct.price),
           quantity: data.quantity,
         },
       ];
     });
 
-    form.reset();
   };
 
   const productsTotal = useMemo(() => {
@@ -116,8 +126,8 @@ const UpsertSheetContent = ({
   }, [selectedProducts]);
 
   const onDelete = (productId: string) => {
-    setSelectedProduct((currentProducts) =>
-      currentProducts.filter((product) => product.id !== productId),
+    setSelectedProduct((currentProduct) =>
+      currentProduct.filter((product) => product.id !== productId),
     );
   };
   return (
@@ -172,7 +182,7 @@ const UpsertSheetContent = ({
         <TableCaption>Lista de produtos adicionado à venda.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead>PRoduto</TableHead>
+            <TableHead>Produto</TableHead>
             <TableHead>Preço unitário</TableHead>
             <TableHead>Quantidade</TableHead>
             <TableHead>Total</TableHead>
