@@ -2,7 +2,10 @@ import "server-only"
 
 import { db } from "@/app/_lib/prisma"
 import { Product } from "@/app/generated/prisma"
+import { cache } from "react"
 
-export const getProduct = async():Promise<Product[]>=>{
+export const getProducts = async():Promise<Product[]>=>{
   return db.product.findMany({})
 }
+
+export const cachedGetProducts = cache(getProducts)
