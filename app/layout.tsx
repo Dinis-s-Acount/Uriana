@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SideBar from "./_components/sidebar";
 import { Inter } from "next/font/google";
-import { Toaster } from "sonner";
+import { Toaster } from "./_components/ui/sonner";
+import MobileSidebar from "./_components/mobile-sidebar";
 
 export const metadata: Metadata = {
   title: "Uriana",
@@ -22,12 +23,22 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${inter.className} antialiased`}>
-        <div className="flex h-full gap-8">
-          <SideBar />
-          {children}
+        <div className="flex h-full flex-col md:flex-row">
+          <div className="hidden h-full w-64 md:block">
+            <SideBar />
+          </div>
+
+          <div className="flex items-center justify-between border-b bg-white p-4 md:hidden">
+            <MobileSidebar />
+            <span className="text-xl font-extrabold">URIANA</span>
+            <div className="w-10"></div>
+          </div>
+
+          <div className="flex-1 overflow-auto">{children}</div>
+          <Toaster />
         </div>
-        <Toaster />
       </body>
     </html>
   );
 }
+
