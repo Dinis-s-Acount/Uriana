@@ -1,4 +1,4 @@
-import { getProducts } from "../_data-access/product/get-product";
+import { getProducts, ProductDTO } from "../_data-access/product/get-product";
 import { ComboboxOption } from "../_components/ui/combobox";
 import CreateSaleButton from "./_components/create-sale-button";
 import { getSales, SalesDTO } from "../_data-access/sales/get-sales";
@@ -15,7 +15,7 @@ import { saleTableColumns } from "./_components/table-columns";
 const SalesPage = async () => {
   const sales = JSON.parse(JSON.stringify(await getSales()));
   const products = JSON.parse(JSON.stringify(await getProducts()));
-  const productOptions: ComboboxOption[] = products.map((product: any) => ({
+  const productOptions: ComboboxOption[] = products.map((product: ProductDTO) => ({
     label: product.name,
     value: product.id,
   }));
