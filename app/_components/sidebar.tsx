@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutGridIcon, Package, ShoppingBasket } from "lucide-react";
+import { LayoutGrid, Package, ShoppingBasket } from "lucide-react";
 import SidebarButton from "./ui/sidebar-button";
 import Link from "next/link";
 
@@ -16,7 +16,7 @@ const SideBar = () => {
       {/* Botões */}
       <div className="flex flex-col gap-2 p-2">
         <SidebarButton href="/">
-          <LayoutGridIcon size={20} />
+          <LayoutGrid size={20} />
           Dashboard
         </SidebarButton>
         <SidebarButton href="/products">

@@ -1,8 +1,10 @@
+"use client";
+
 import {
-  ClipboardCopyIcon,
-  EditIcon,
-  MoreHorizontalIcon,
-  TrashIcon,
+  ClipboardCopy,
+  Edit,
+  MoreHorizontal,
+  Trash,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -36,7 +38,7 @@ const ProductTableDropdownMenu = ({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost">
-              <MoreHorizontalIcon size={16} />
+              <MoreHorizontal size={16} />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -45,14 +47,14 @@ const ProductTableDropdownMenu = ({
               className="gap-1.5"
               onClick={() => navigator.clipboard.writeText(product.id)}
             >
-              <ClipboardCopyIcon size={16} />
+              <ClipboardCopy size={16} />
               Copiar ID
             </DropdownMenuItem>
             <DialogTrigger asChild>
               <DropdownMenuItem
                 className="gap-1.5"
               >
-                <EditIcon size={16} />
+                <Edit size={16} />
                 Editar
               </DropdownMenuItem>
             </DialogTrigger>
@@ -60,7 +62,7 @@ const ProductTableDropdownMenu = ({
               <DropdownMenuItem
                 className="gap-1.5"
               >
-                <TrashIcon size={16} />
+                <Trash size={16} />
                 Deletar
               </DropdownMenuItem>
             </AlertDialogTrigger>

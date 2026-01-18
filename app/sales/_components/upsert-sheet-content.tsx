@@ -31,13 +31,15 @@ import {
 import { formatCurrency } from "@/app/_helpers/currency";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Product } from "@/app/generated/prisma";
-import { PlusIcon, CheckIcon } from "lucide-react";
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { Plus, Check } from "lucide-react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import SalesTableDropdownMenu from "./table-dropdown-menu";
-import { createSale } from "@/app/_actions/sale/create-sale";
+import UpsertSaleTableDropdownMenu from "./upsert-table-dropdown-menu";
+import { upsertSale } from "@/app/_actions/sale/upsert-sale";
 import { toast } from "sonner";
+import { useAction } from "next-safe-action/hooks";
+import { flattenValidationErrors } from "next-safe-action";
 
 const formSchema = z.object({
   productId: z.string().uuid({
@@ -49,9 +51,12 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 interface UpsertSheetContentProps {
+  isOpen: boolean;
+  saleId?: string;
   products: Product[];
   productOptions: ComboboxOption[];
   setSheetIsOpen: Dispatch<SetStateAction<boolean>>;
+  defaultSelectedProducts?: SelectedProduct[];
 }
 
 interface SelectedProduct {
@@ -62,13 +67,28 @@ interface SelectedProduct {
 }
 
 const UpsertSheetContent = ({
+  isOpen,
+  saleId,
   productOptions,
   products,
   setSheetIsOpen,
+  defaultSelectedProducts,
 }: UpsertSheetContentProps) => {
   const [selectedProducts, setSelectedProduct] = useState<SelectedProduct[]>(
-    [],
+    defaultSelectedProducts ?? [],
   );
+
+  const { execute: executeUpsertSale } = useAction(upsertSale, {
+    onError: ({ error: { validationErrors, serverError } }) => {
+      const flattenedErrors = flattenValidationErrors(validationErrors);
+      toast.error(serverError ?? flattenedErrors.formErrors[0]);
+    },
+    onSuccess: () => {
+      toast.success("Venda realizada com sucesso!");
+      setSheetIsOpen(false);
+    },
+  });
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -76,6 +96,21 @@ const UpsertSheetContent = ({
       quantity: 1,
     },
   });
+
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedProduct([]);
+      form.reset();
+      setSheetIsOpen(false);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (defaultSelectedProducts) {
+      setSelectedProduct(defaultSelectedProducts ?? []);
+    }
+  }, [defaultSelectedProducts]);
+
   const onSubmit = (data: FormSchema) => {
     const selectedProduct = products.find(
       (product) => product.id === data.productId,
@@ -140,22 +175,16 @@ const UpsertSheetContent = ({
   };
 
   const onSubmitSale = async () => {
-    try {
-      await createSale({
-        products: selectedProducts.map((product) => ({
-          productId: product.id,
-          quantity: product.quantity,
-        })),
-      });
-      toast.success("Venda realizada com sucesso!");
-      setSheetIsOpen(false);
-    } catch (error) {
-      toast.error("Erro ao realizar venda. Tente novamente.");
-      console.log(error);
-    }
+    executeUpsertSale({
+      id: saleId,
+      products: selectedProducts.map((product) => ({
+        productId: product.id,
+        quantity: product.quantity,
+      })),
+    });
   };
   return (
-    <SheetContent className="!max-w-[700px]">
+    <SheetContent className="!max-w-[700px] overflow-y-auto">
       <SheetHeader>
         <SheetTitle>Nova vendas</SheetTitle>
         <SheetDescription>
@@ -196,7 +225,7 @@ const UpsertSheetContent = ({
             )}
           />
           <Button type="submit" className="gap-1.2 w-full" variant="secondary">
-            <PlusIcon size={20} />
+            <Plus size={20} />
             Adicionar produto à venda
           </Button>
         </form>
@@ -222,7 +251,7 @@ const UpsertSheetContent = ({
                 {formatCurrency(product.price * product.quantity)}
               </TableCell>
               <TableCell>
-                <SalesTableDropdownMenu
+                <UpsertSaleTableDropdownMenu
                   product={product}
                   onDelete={() => onDelete(product.id)}
                 />
@@ -245,7 +274,7 @@ const UpsertSheetContent = ({
           disabled={selectedProducts.length === 0}
           onClick={onSubmitSale}
         >
-          <CheckIcon size={20} />
+          <Check size={20} />
           Finalizar venda
         </Button>
       </SheetFooter>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2Icon } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { Button } from "../../_components/ui/button";
 import {
   DialogContent,
@@ -135,7 +135,7 @@ const UpsertProductDialogContent = ({
               className="gap-1.5"
             >
               {form.formState.isSubmitting && (
-                <Loader2Icon size={16} className="animate-spin" />
+                <Loader2 size={16} className="animate-spin" />
               )}
               Salvar
             </Button>

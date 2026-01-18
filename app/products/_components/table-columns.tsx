@@ -7,7 +7,7 @@ import { Badge } from "@/app/_components/ui/badge";
 import { Product } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
 import {
-  CircleIcon
+  Circle
 } from "lucide-react";
 import ProductTableDropdownMenu from "./table-dropdown-menu";
 
@@ -50,7 +50,7 @@ export const productsTableColumns: ColumnDef<Product>[] = [
           variant={label === "Em estoque" ? "default" : "destructive"}
           className="gap-1"
         >
-          <CircleIcon
+          <Circle
             className={`${label === "Em estoque" ? "fill-primary-foreground" : "fill-destructive-foreground"}`}
             size={14}
           />

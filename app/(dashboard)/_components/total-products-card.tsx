@@ -5,7 +5,7 @@ import {
   SummaryCardTitle,
   SummaryCardValue,
 } from "./summary-card";
-import { ShoppingPackageIcon } from "lucide-react";
+import { Package } from "lucide-react";
 
 const TotalProductsCard = async () => {
   const totalProducts = await getTotalProducts();
@@ -13,7 +13,7 @@ const TotalProductsCard = async () => {
   return (
     <SummaryCard>
       <SummaryCardIcon>
-        <ShoppingPackageIcon />
+        <Package />
       </SummaryCardIcon>
       <SummaryCardTitle>Produtos Totais</SummaryCardTitle>
       <SummaryCardValue>{totalProducts}</SummaryCardValue>

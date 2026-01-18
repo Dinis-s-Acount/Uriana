@@ -5,7 +5,7 @@ import { Dialog, DialogTrigger } from "@/app/_components/ui/dialog";
 
 import { useState } from "react";
 import UpsertProductDialogContent from "./upsert-dialog-content";
-import { PlusIcon } from "lucide-react";
+import { Plus } from "lucide-react";
 
 const CreateProductButton = () => {
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
@@ -14,7 +14,7 @@ const CreateProductButton = () => {
     <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
       <DialogTrigger asChild>
         <Button>
-          <PlusIcon size={20} />
+          <Plus size={20} />
           Novo produto
         </Button>
       </DialogTrigger>
