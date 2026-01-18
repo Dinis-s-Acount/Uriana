@@ -5,10 +5,10 @@ import { Skeleton } from "@/app/_components/ui/skeleton";
 const MostSoldProductsCard = async () => {
     const mostSoldProducts = await getMostSoldProducts();
     return (
-        <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white">
-          <p className="text-lg font-semibold text-slate-900 p-6">Produtos mais vendidos</p>
+        <div className="flex h-full min-h-[300px] flex-col overflow-hidden rounded-xl bg-white">
+          <p className="text-base font-semibold text-slate-900 p-4 sm:p-6 sm:text-lg">Produtos mais vendidos</p>
 
-          <div className="overflow-y-auto space-y-7 px-6 pb-6">
+          <div className="overflow-y-auto space-y-4 px-4 pb-4 sm:space-y-7 sm:px-6 sm:pb-6">
             {mostSoldProducts.map((product) => (
               <MostSoldProductItem key={product.productId} product={product} />
             ))}

@@ -20,7 +20,7 @@ interface RevenueChartProps {
 }
 const RevenueChart = ({ data }: RevenueChartProps) => {
   return (
-    <ChartContainer config={chartConfig} className="min-h-0 w-full">
+    <ChartContainer config={chartConfig} className="min-h-[250px] w-full sm:min-h-[300px]">
       <BarChart accessibilityLayer data={data}>
         <CartesianGrid vertical={false} />
         <XAxis
@@ -28,6 +28,10 @@ const RevenueChart = ({ data }: RevenueChartProps) => {
           tickLine={false}
           tickMargin={10}
           axisLine={false}
+          angle={-45}
+          textAnchor="end"
+          height={60}
+          className="text-xs"
         />
         <ChartTooltip content={<ChartTooltipContent />} />
         <Bar dataKey="totalRevenue" radius={4} fill="#10b981" />

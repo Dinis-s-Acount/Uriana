@@ -18,11 +18,11 @@ const MobileSidebar = () => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <Menu size={32} />
+        <Button variant="ghost" size="icon" className="h-9 w-9">
+          <Menu size={24} className="sm:size-8" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="p-0">
+      <SheetContent side="left" className="w-[280px] p-0 sm:w-[300px]">
         <SideBar />
       </SheetContent>
     </Sheet>

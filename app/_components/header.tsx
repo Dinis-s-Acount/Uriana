@@ -1,5 +1,5 @@
 export const HeaderTitle = ({ children }: { children: React.ReactNode }) => {
-  return <h2 className="text-xl font-semibold">{children}</h2>;
+  return <h2 className="text-lg font-semibold sm:text-xl">{children}</h2>;
 };
 
 export const HeaderSubtitle = ({ children }: { children: React.ReactNode }) => {
@@ -13,11 +13,11 @@ export const HeaderLeft = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const HeaderRight = ({ children }: { children: React.ReactNode }) => {
-  return <div>{children}</div>;
+  return <div className="flex-shrink-0">{children}</div>;
 };
 
 export const Header = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex w-full items-center justify-between">{children}</div>
+    <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">{children}</div>
   );
 };

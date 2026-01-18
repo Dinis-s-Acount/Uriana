@@ -6,15 +6,15 @@ import Link from "next/link";
 
 const SideBar = () => {
   return (
-    <div className="w-full h-full bg-white border-r">
-      {/* Imagem */}
-      <div className="px-8 py-6">
+    <div className="w-full h-full bg-white border-r flex flex-col">
+      {/* Logo */}
+      <div className="px-6 py-4 sm:px-8 sm:py-6">
         <Link href='/'>
-          <h1 className="text-2xl font-extrabold">URIANA</h1>
+          <h1 className="text-xl font-extrabold sm:text-2xl">URIANA</h1>
         </Link>
       </div>
       {/* Botões */}
-      <div className="flex flex-col gap-2 p-2">
+      <div className="flex flex-col gap-2 p-2 flex-1">
         <SidebarButton href="/">
           <LayoutGrid size={20} />
           Dashboard

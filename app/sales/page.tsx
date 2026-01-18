@@ -27,7 +27,7 @@ const SalesPage = async () => {
   }));
 
   return (
-    <div className="m-4 space-y-8 rounded-lg bg-white p-4 overflow-auto md:m-8 md:p-8">
+    <div className="m-4 space-y-4 rounded-lg bg-white p-4 overflow-auto sm:m-6 sm:space-y-6 sm:p-6 md:m-8 md:space-y-8 md:p-8">
       <Header>
         <HeaderLeft>
           <HeaderSubtitle>Gestão de Vendas</HeaderSubtitle>

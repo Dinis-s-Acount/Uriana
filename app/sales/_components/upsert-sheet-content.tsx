@@ -185,7 +185,7 @@ const UpsertSheetContent = ({
     });
   };
   return (
-    <SheetContent className="!max-w-[700px] overflow-y-auto">
+    <SheetContent className="!max-w-[700px] overflow-y-auto w-full sm:w-[90vw]">
       <SheetHeader>
         <SheetTitle>Nova venda</SheetTitle>
         <SheetDescription>
@@ -193,7 +193,7 @@ const UpsertSheetContent = ({
         </SheetDescription>
       </SheetHeader>
       <Form {...form}>
-        <form className="space-y-6 py-6" onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="space-y-4 py-4 sm:space-y-6 sm:py-6" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="productId"
@@ -231,43 +231,45 @@ const UpsertSheetContent = ({
           </Button>
         </form>
       </Form>
-      <Table>
-        <TableCaption>Lista de produtos adicionados à venda.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Produto</TableHead>
-            <TableHead>Preço unitário</TableHead>
-            <TableHead>Quantidade</TableHead>
-            <TableHead>Total</TableHead>
-            <TableHead>Ações</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {selectedProducts.map((product) => (
-            <TableRow key={product.id}>
-              <TableCell className="font-medium">{product.name}</TableCell>
-              <TableCell>{formatCurrency(product.price)}</TableCell>
-              <TableCell>{product.quantity}</TableCell>
-              <TableCell>
-                {formatCurrency(product.price * product.quantity)}
-              </TableCell>
-              <TableCell>
-                <UpsertSaleTableDropdownMenu
-                  product={product}
-                  onDelete={() => onDelete(product.id)}
-                />
-              </TableCell>
+      <div className="overflow-x-auto">
+        <Table>
+          <TableCaption>Lista de produtos adicionados à venda.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="whitespace-nowrap">Produto</TableHead>
+              <TableHead className="whitespace-nowrap">Preço unitário</TableHead>
+              <TableHead className="whitespace-nowrap">Quantidade</TableHead>
+              <TableHead className="whitespace-nowrap">Total</TableHead>
+              <TableHead className="whitespace-nowrap">Ações</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell>{formatCurrency(productsTotal)}</TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {selectedProducts.map((product) => (
+              <TableRow key={product.id}>
+                <TableCell className="font-medium whitespace-nowrap">{product.name}</TableCell>
+                <TableCell className="whitespace-nowrap">{formatCurrency(product.price)}</TableCell>
+                <TableCell className="whitespace-nowrap">{product.quantity}</TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {formatCurrency(product.price * product.quantity)}
+                </TableCell>
+                <TableCell className="whitespace-nowrap">
+                  <UpsertSaleTableDropdownMenu
+                    product={product}
+                    onDelete={() => onDelete(product.id)}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={3}>Total</TableCell>
+              <TableCell>{formatCurrency(productsTotal)}</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </div>
 
       <SheetFooter className="mt-6">
         <Button
