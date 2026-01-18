@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Uriana 🚀
+### Full-stack Inventory & Sales Intelligence Platform
 
-## Getting Started
+Uriana é uma solução robusta e moderna para gestão inteligente de estoque e vendas, projetada para oferecer alta performance, confiabilidade e uma experiência de usuário impecável. Desenvolvida com as tecnologias mais avançadas do ecossistema Web, a plataforma foca em agilidade operacional e integridade de dados.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Funcionalidades Estratégicas
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 📊 Dashboard de Inteligência em Tempo Real
+Transforme dados em decisões. Nosso dashboard oferece uma visão panorâmica da saúde do seu negócio:
+*   **Métricas Consolidadas:** Receita total, ticket médio e volume de vendas instantâneos.
+*   **Análise de Tendências:** Gráficos comparativos de receita dos últimos 14 dias.
+*   **Destaque de Performance:** Identificação automática dos produtos mais vendidos para otimização de estoque.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 📦 Gestão de Inventário de Próxima Geração
+Controle total sobre seu catálogo de produtos:
+*   **CRUD Avançado:** Interface intuitiva para criação, edição e exclusão de produtos.
+*   **Alertas de Estoque:** Visualização clara dos níveis de estoque para prevenir rupturas.
+*   **Tipagem Forte:** Garantia de que preços, quantidades e nomes estejam sempre consistentes.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 💰 Fluxo de Vendas Otimizado
+Processo de checkout simplificado e seguro:
+*   **Lançamento Rápido:** Interface de PDV (Ponto de Venda) digital para registro imediato de vendas.
+*   **Sincronização Atômica:** O estoque é atualizado automaticamente no momento da venda, utilizando transações de banco de dados para evitar inconsistências.
+*   **Histórico Detalhado:** Acompanhamento completo de todas as transações realizadas.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Excelência Tecnológica
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+A arquitetura do Uriana foi planejada para escala e manutenção simplificada:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+*   **Next.js 14:** Utilizando *App Router* e *Server Components* para o máximo de performance e SEO.
+*   **TypeScript:** Código 100% tipado, reduzindo drasticamente a ocorrência de bugs em produção.
+*   **Prisma ORM & PostgreSQL:** Camada de persistência sólida, garantindo integridade referencial e consultas ultra-rápidas.
+*   **Next-Safe-Action:** Validação rigorosa em todas as operações de servidor, garantindo segurança contra inputs maliciosos.
+*   **Tailwind CSS & OKLCH:** Sistema de design moderno com cores perceptualmente uniformes, garantindo acessibilidade e estética premium.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚀 Como Começar (Quick Start)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Para desenvolvedores ou parceiros interessados em explorar a plataforma localmente:
+
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/seu-usuario/uriana.git
+    ```
+2.  **Instale as dependências:**
+    ```bash
+    npm install
+    ```
+3.  **Configure o Ambiente:**
+    Crie um arquivo `.env` com sua `DATABASE_URL` (PostgreSQL).
+4.  **Sincronize o Banco de Dados:**
+    ```bash
+    npx prisma generate
+    npx prisma db push
+    ```
+5.  **Inicie o servidor de desenvolvimento:**
+    ```bash
+    npm run dev
+    ```
+
+---
+
+## 🤝 Parcerias e Customização
+
+O Uriana é uma plataforma altamente modular e adaptável. Se sua empresa busca uma solução personalizada para controle de estoque, automação de vendas ou integração de sistemas:
+
+📧 **Entre em contato:** [Bruno de Andrade](https://www.linkedin.com/in/bruno-de-andrade-dinis)
+
+---
+
+Desenhado com 💜 por [Bruno Andrade](https://github.com/BrunoAndradeDinis).
