@@ -33,7 +33,7 @@ import { toast } from "sonner";
 import UpsertSheetContent from "./upsert-sheet-content";
 import { useState } from "react";
 import { ComboboxOption } from "@/app/_components/ui/combobox";
-import { Product } from "@/app/generated/prisma";
+import { Product } from "@prisma/client";
 import { SalesDTO } from "@/app/_data-access/sales/get-sales";
 
 interface SalesTableDropdownMenuProps {

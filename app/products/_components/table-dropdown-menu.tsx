@@ -22,7 +22,7 @@ import DeleteProductDialogContent from "./delete-dialog-content";
 import { Dialog, DialogTrigger } from "@/app/_components/ui/dialog";
 import UpsertProductDialogContent from "./upsert-dialog-content";
 import { useState } from "react";
-import { Product } from "@/app/generated/prisma";
+import { Product } from "@prisma/client";
 
 interface ProductTableDropdownMenuProps {
   product: Product;

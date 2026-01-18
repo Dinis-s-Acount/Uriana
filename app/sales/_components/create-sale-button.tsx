@@ -6,7 +6,7 @@ import { Plus } from "lucide-react";
 import UpsertSheetContent from "./upsert-sheet-content";
 import { ComboboxOption } from "@/app/_components/ui/combobox";
 import { useState } from "react";
-import { Product } from "@/app/generated/prisma";
+import { Product } from "@prisma/client";
 
 interface CreateSaleButtonProps {
   products: Product[];

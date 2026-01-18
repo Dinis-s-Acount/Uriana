@@ -4,7 +4,7 @@ import { SalesDTO } from "@/app/_data-access/sales/get-sales";
 import { formatCurrency } from "@/app/_helpers/currency";
 import { ColumnDef } from "@tanstack/react-table";
 import SalesTableDropdownMenu from "./table-dropdown-menu";
-import { Product } from "@/app/generated/prisma";
+import { Product } from "@prisma/client";
 import { ComboboxOption } from "@/app/_components/ui/combobox";
 
 interface SaleTableColumn extends SalesDTO {

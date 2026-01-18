@@ -4,7 +4,7 @@
 
 import { Badge } from "@/app/_components/ui/badge";
 
-import { Product } from "@/app/generated/prisma";
+import { Product } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   Circle

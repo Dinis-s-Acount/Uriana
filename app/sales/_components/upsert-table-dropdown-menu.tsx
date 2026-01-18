@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 import { Button } from "@/app/_components/ui/button";
-import { Product } from "@/app/generated/prisma";
+import { Product } from "@prisma/client";
 
 interface TableDropdownMenuProps {
   product: Pick<Product, "id">;

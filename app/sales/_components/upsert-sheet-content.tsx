@@ -30,7 +30,7 @@ import {
 } from "@/app/_components/ui/table";
 import { formatCurrency } from "@/app/_helpers/currency";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Product } from "@/app/generated/prisma";
+import { Product } from "@prisma/client";
 import { PlusIcon, CheckIcon } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";

@@ -1,6 +1,6 @@
 import "server-only";
 import { db } from "@/app/_lib/prisma";
-import { Product } from "@/app/generated/prisma";
+import { Product } from "@prisma/client";
 import { cache } from "react";
 
 export type ProductStatusDto = "IN_STOCK" | "OUT_OF_STOCK";
