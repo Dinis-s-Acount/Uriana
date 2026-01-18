@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
+import { Loader2Icon } from "lucide-react";
 import { Button } from "../../_components/ui/button";
 import {
   DialogContent,
@@ -24,10 +24,11 @@ import { Input } from "@/app/_components/ui/input";
 import {
   upsertProductSchema,
   type UpsertProductSchema,
-} from "@/app/_actions/upsert-products/schema";
+} from "@/app/_actions/product/upsert-product/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createProduct } from "@/app/_actions/upsert-products";
+import { upsertProduct } from "@/app/_actions/product/upsert-product";
+import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 
 interface UpsertProductDialogContentProps {
@@ -39,32 +40,41 @@ const UpsertProductDialogContent = ({
   defaultValues,
   onSuccess,
 }: UpsertProductDialogContentProps) => {
+  const isEditing = !!defaultValues;
+
+  const { execute: executeUpsertProduct } = useAction(upsertProduct, {
+    onSuccess: () => {
+      onSuccess?.();
+      toast.success(
+        `Produto ${isEditing ? "salvo" : "adicionado"} com sucesso!`,
+      );
+    },
+    onError: () => {
+      toast.error("Ocorreu um erro ao adicionar o produto.");
+    },
+  });
+
   const form = useForm<UpsertProductSchema>({
     shouldUnregister: true,
-    resolver: zodResolver(upsertProductSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(upsertProductSchema) as any,
     defaultValues: defaultValues ?? {
       name: "",
-      price: 10,
+      price: 0,
       stock: 1,
     },
   });
 
-  const isEditing = !!defaultValues;
-
-  const onSubmit = async (data: UpsertProductSchema) => {
-    try {
-      await createProduct({ ...data, id: defaultValues?.id });
-      onSuccess?.();
-    } catch (error) {
-      toast.error(String(error));
-    }
+  const onSubmit = (data: UpsertProductSchema) => {
+    executeUpsertProduct({ ...data, id: defaultValues?.id });
   };
+
   return (
     <DialogContent>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <DialogHeader>
-            <DialogTitle>{isEditing ? "Editar" : "Criar"} produto</DialogTitle>
+            <DialogTitle>{isEditing ? "Editar " : "Criar"} produto</DialogTitle>
             <DialogDescription>Insira as informações abaixo</DialogDescription>
           </DialogHeader>
           <FormField
@@ -125,17 +135,18 @@ const UpsertProductDialogContent = ({
           />
 
           <DialogFooter>
-            <DialogClose>
-              <Button variant="outline">Cancelar</Button>
+            <DialogClose asChild>
+              <Button variant="secondary" type="reset">
+                Cancelar
+              </Button>
             </DialogClose>
-
             <Button
               type="submit"
               disabled={form.formState.isSubmitting}
               className="gap-1.5"
             >
               {form.formState.isSubmitting && (
-                <Loader2 size={16} className="animate-spin" />
+                <Loader2Icon className="animate-spin" size={16} />
               )}
               Salvar
             </Button>

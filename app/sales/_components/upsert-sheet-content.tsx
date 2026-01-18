@@ -31,7 +31,7 @@ import {
 import { formatCurrency } from "@/app/_helpers/currency";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Product } from "@/app/generated/prisma";
-import { Plus, Check } from "lucide-react";
+import { PlusIcon, CheckIcon } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -90,7 +90,8 @@ const UpsertSheetContent = ({
   });
 
   const form = useForm<FormSchema>({
-    resolver: zodResolver(formSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(formSchema) as any,
     defaultValues: {
       productId: "",
       quantity: 1,
@@ -103,7 +104,7 @@ const UpsertSheetContent = ({
       form.reset();
       setSheetIsOpen(false);
     }
-  }, [isOpen]);
+  }, [isOpen, form, setSheetIsOpen]);
 
   useEffect(() => {
     if (defaultSelectedProducts) {
@@ -186,7 +187,7 @@ const UpsertSheetContent = ({
   return (
     <SheetContent className="!max-w-[700px] overflow-y-auto">
       <SheetHeader>
-        <SheetTitle>Nova vendas</SheetTitle>
+        <SheetTitle>Nova venda</SheetTitle>
         <SheetDescription>
           Insira as informações da venda abaixo
         </SheetDescription>
@@ -225,7 +226,7 @@ const UpsertSheetContent = ({
             )}
           />
           <Button type="submit" className="gap-1.2 w-full" variant="secondary">
-            <Plus size={20} />
+            <PlusIcon size={20} />
             Adicionar produto à venda
           </Button>
         </form>
@@ -274,7 +275,7 @@ const UpsertSheetContent = ({
           disabled={selectedProducts.length === 0}
           onClick={onSubmitSale}
         >
-          <Check size={20} />
+          <CheckIcon size={20} />
           Finalizar venda
         </Button>
       </SheetFooter>

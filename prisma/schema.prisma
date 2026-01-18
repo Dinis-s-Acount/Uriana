@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../app/generated/prisma"
 }
 
 datasource db {
@@ -33,7 +32,7 @@ model Sale {
 }
 
 model SaleProduct {
-  id        String   @id @default(ulid())
+  id        String   @id @default(uuid())
   saleId    String
   sale      Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
   productId String
